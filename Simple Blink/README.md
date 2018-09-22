@@ -1,26 +1,3 @@
-# Simple Blink
-For starters, you will need to blink one of the on-board LED's at a particular rate. It is up to you to determine what rate you want to blink it at, however it has to be symmetrical (50% Duty Cycle), meaning equal times on and off. You should attempt multiple different speeds before moving on to the next part of the lab.
+The general idea of the program is to have an LED blink. The microprocessors used for this simple blink are the MSP430G2553 and the MSP430FR2311. Both microcontrollers have very similar codes in terms of function and they both use a generic MSP430 header file. This was coded using Code Composer Studio 8 in a CCS project. Both codes start with stopping the watchdog timer, which resets the system if a software problem occurs. Both codes have a P1DIR set to 1 so that P1.0 is set as an output (LED). Both codes also have an infinite loop where a statement toggles the LED on or off using a XOR with a one to the bit zero followed by a loop that runs 50000 times to cause a delay. These delay loops have a volatile unsigned int that decrements by one each iteration.
 
-## YOU NEED TO CREATE THE FOLLOWING FOLDERS
-* MSP430G2553
-* MSP(FILL IN WHAT BOARD YOU ARE USING)
-
-## How to not damage your processor
-Remember that your microprocessors are not hooked up to a nuclear power plant and they can only provide a finite amount of current and power to your attached devices. For each of your processors you should see what the maximum supply current is for the digital output pins and note it in your designs. Diodes are an interesting device where the V-I curve becomes almost a short circuit after only a couple volts. If you have a diode biased to operate at say 1 volt above its turn on voltage, you are going to be drawing quite a bit of amperage.
-
-Before you actually begin this lab, take the time to mess around with the simulation below and understand what the importance of the series resistance is in the design. What does the resistance prevent from happening? Does having this resistance impact the performance of the LED?
-
-<a href="http://everycircuit.com/circuit/5180823226810368">LED Current - EveryCircuit</a><br>
-<iframe width="560" height="360" src="http://everycircuit.com/embed/5180823226810368" frameborder="0"></iframe>
-
-## README
-Remember to replace this README with your README once you are ready to submit. I would recommend either making a copy of this file or taking a screen shot. There might be a copy of all of these README's in a folder on the top level depending on the exercise.
-
-## Extra Work
-Since this is so basic, there are a few things which might be interesting to implement.
-
-### UART Control: Single Character
-For starters, it would be interesting to tie in some of the UART code that was used before into this project. You might want to have the speed of the blinking controlled by a character sent over UART. For example, 's' could be a slow setting, 'm' could be medium speed, 'f' could be fast, and 'o' could be off.
-
-### UART Control: Rate Number
-Instead of depending on a character, what if we wanted to send a blinking period in milliseconds? So instead of 's', you could send something like '100' which corresponds to a 100 millisecond delay between the time the LED turns on again. Before you decide to tackle this, I would take a look at using a logic analyzer to see exactly what your computer is sending to your microprocessor. Also remember that the code previously provided will only service the UART Buffer one character at a time.
+The MSP430G2553 simple blink code is more efficient where the infinite while loop contains one line for loop causing the delay. The condition for the delay loop is that the variable must be greater than zero to be true. The MSP430FR2311 requires a line after stopping the watchdog timer. This statement "PM5CTL0 &= ~LOCKLPM5;" disables the default high impedance mode and unlocks the GPIO pins for use. The infinite loop is a for loop that contains a do loop. The condition for the do loop is that the variable must not be equal to zero to be true.
